@@ -1,0 +1,8 @@
+(library
+ (name parsing)
+ (libraries sedlex)
+ (preprocess
+   (pps sedlex.ppx))
+   (flags :standard -w +39))
+
+ 

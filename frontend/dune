@@ -2,7 +2,8 @@
  (name frontend)
  (libraries sedlex core)
  (preprocess
-   (pps sedlex.ppx ppx_deriving.show ppx_deriving.ord))
-   (flags :standard -w +39))
+  (pps sedlex.ppx ppx_deriving.show ppx_deriving.ord))
+ (flags :standard -w +39))
 
- 
+(menhir
+ (modules parser))

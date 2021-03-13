@@ -1,0 +1,11 @@
+fun hello(x: int) -> int{
+    if (x > 10) {
+        return x;
+    }else {
+        return 0;
+    }
+}
+
+fun test1(i: string) {
+    return;
+}

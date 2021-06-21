@@ -47,4 +47,3 @@ expr:
   | expr TIMES expr         { $1 * $3 }
   | expr DIV expr           { $1 / $3 }
   | MINUS expr %prec UMINUS { - $2 }
-  | NEG expr %prec NEG      { $2 * 10 }

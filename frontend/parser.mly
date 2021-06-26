@@ -33,8 +33,12 @@
 
 %start main             /* the entry point */
 %type <int> main
+%type <Core.astleaf> exp
 %%
 
+exp:
+    INT { { leaf = $1; start = 0; stop = 1; } }
+;
 
 main:
     expr EOL                { $1 }

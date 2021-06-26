@@ -1,8 +1,13 @@
+open! Frontend
+open! MenhirLib
+
 (* 
-let rec print_list = function 
-  [] -> ()
-  | e::l -> print_string (Tokens.show_token e); print_string " "; print_list l
-
-let main () = print_list (Lexer.tokenize "fun hello() { if () {} else {} }")
-
-let () = main () *)
+let () = 
+  let lexbuf = Sedlexing.Utf8.from_string "2 + 3" in
+    while true do
+      let lexer = Sedlexing.with_tokenizer Lexer.token lexbuf in
+      let parser = MenhirLib.Convert.Simplified.traditional2revised Parser.main in
+      let result = parser lexer in 
+        print_int result; print_newline(); flush stdout;
+    done   *)
+    

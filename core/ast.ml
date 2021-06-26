@@ -37,19 +37,15 @@ type expr =
   | BinOp of binop * expr * expr
   | Constant of constant
   | Var of id
-  | Fun of id * expr
+  | FuncCall of id * (expr list)
   [@@deriving show, eq, sexp, yojson { strict = true }]
 
-type gtypedef = 
+type rtypedef = 
   | StringGType
   | BoolGType
   | F64GType
   | IntGType
-  | RecordGType of (string * gtypedef) list
-  [@@deriving show, eq, sexp, yojson { strict = true }]
-
-type definition =
-  | TypeAlias of string * string
+  | RecordGType of (string * rtypedef) list
   [@@deriving show, eq, sexp, yojson { strict = true }]
 
 type paramtype = 
@@ -57,14 +53,37 @@ type paramtype =
   | BoolType of (muttype * string)
   | F64Type of (muttype * string)
   | IntType of (muttype * string)
-  | RecordType of (muttype * string * string)
+  | RecordType of (muttype * string)
   | GenericType of (muttype * string) * (string list)
   [@@deriving show, eq, sexp, yojson { strict = true }]
 
-type defunc = 
-  | Function of string
+type returntype = 
+  | StringType
+  | BoolType
+  | F64Type
+  | IntType
+  | RecordType of string
+  | GenericType
+  [@@deriving show, eq, sexp, yojson { strict = true }]
+
+
+type param = Param of (paramtype * string) [@@deriving show, eq, sexp, yojson { strict = true }]
+
+type definition  = 
+  | Function of string * (param list) * (returntype)
+  | RecordDef of rtypedef
+  [@@deriving show, eq, sexp, yojson { strict = true }]
+
+type moduledefn = 
+  | Module of string * (definition list)
   [@@deriving show, eq, sexp, yojson { strict = true }]
 
 type program = 
-  | Program of (definition list) * (defunc list)
+  | Program of (string * moduledefn) list
   [@@deriving show, eq, sexp, yojson { strict = true }]
+
+type 't astleaf =
+  { leaf   : 't;
+    start  : int;
+    stop   : int;
+  }

@@ -5,6 +5,12 @@
 %token <float> FLOAT
 %token <bool> BOOL
 %token <string> ID
+%token IF
+%token FUN
+%token FOR
+%token ELSE
+%token TINT
+%token TFLOAT
 
 %token LBRACE RBRACE
 %token LBRACK RBRACK

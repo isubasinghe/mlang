@@ -10,21 +10,24 @@ let rec token buf =
     | white_space -> (); token buf
     | float -> (); FLOAT(float_of_string (Sedlexing.Latin1.lexeme buf))
     | Plus integer -> (); INT (int_of_string (Sedlexing.Latin1.lexeme buf))
-    | "if" -> (); token buf
-    | "fun" -> (); token buf
-    | "for" -> (); token buf
-    | "else" -> (); token buf
-    | "int" -> (); token buf 
-    | "{" -> (); token buf
-    | "}" -> (); token buf
-    | "[" -> (); token buf
-    | "]" -> (); token buf
-    | "(" -> (); token buf
-    | ")" -> (); token buf
-    | ";" -> (); token buf
+    | "if" -> (); IF
+    | "fun" -> (); FUN
+    | "for" -> (); FOR
+    | "else" -> (); ELSE
+    | "int" -> (); TINT 
+    | "{" -> (); LBRACE
+    | "}" -> (); RBRACE
+    | "[" -> (); LBRACK
+    | "]" -> (); RBRACK
+    | "(" -> (); LPAREN
+    | ")" -> (); RPAREN
+    | ";" -> (); SEMICOLON
     | "+" -> (); PLUS
     | "-" -> (); MINUS
     | "*" -> (); TIMES
     | "/" -> (); DIV
     | letter, Star (letter | integer) -> (); token buf
     | _ -> failwith "Internal failure: Reached impossible place"
+
+let lexer buf = 
+  Sedlexing.with_tokenizer token buf

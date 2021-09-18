@@ -14,10 +14,15 @@ let anon_fun filename =
 
 let parse_lexbuf lexbuf filename =
   Sedlexing.set_filename lexbuf filename;
-  ()
+  Frontend.Lexer.token lexbuf
 let parse_file filename =
-  let oc = open_in filename in
-    parse_lexbuf (Sedlexing.Latin1.from_channel oc) filename
+  let oc = open_in filename in 
+  let lexbuf = Sedlexing.Utf8.from_channel oc in
+  let lexer = Sedlexing.with_tokenizer Lexer.token lexbuf in
+  let parser = MenhirLib.Convert.Simplified.traditional2revised Parser.main in
+  let result = parser lexer in
+  print_int result;
+  flush stdout
 
 let () =
   Arg.parse speclist anon_fun usage_msg;

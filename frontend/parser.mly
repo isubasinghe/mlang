@@ -9,6 +9,7 @@
 %token FUN
 %token FOR
 %token ELSE
+%token MUT
 %token TINT
 %token TFLOAT
 
@@ -19,6 +20,8 @@
 %token SEMICOLON
 %token COLON
 
+%token COMMA
+
 %token LQ
 %token LEQ
 
@@ -28,7 +31,7 @@
 %token EQ
 
 %token PLUS MINUS TIMES DIV
-%token EOL
+%token EOF
 
 %token UMINUS NEG
 
@@ -39,15 +42,11 @@
 
 %start main             /* the entry point */
 %type <int> main
-%type <Core.astleaf> exp
 %%
 
-exp:
-    INT { { leaf = $1; start = 0; stop = 1; } }
-;
 
 main:
-    expr EOL                { $1 }
+    expr EOF                { $1 }
 ;
 expr:
     INT                     { $1 }

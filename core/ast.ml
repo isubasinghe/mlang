@@ -70,7 +70,7 @@ type returntype =
 type param = Param of (paramtype * string) [@@deriving show, eq, sexp, yojson { strict = true }]
 
 type definition  = 
-  | Function of string * (param list) * (returntype)
+  | Function of string * (param list) * (returntype option)
   | RecordDef of rtypedef
   [@@deriving show, eq, sexp, yojson { strict = true }]
 
@@ -81,9 +81,3 @@ type moduledefn =
 type program = 
   | Program of (string * moduledefn) list
   [@@deriving show, eq, sexp, yojson { strict = true }]
-
-type 't astleaf =
-  { leaf   : 't;
-    start  : int;
-    stop   : int;
-  }

@@ -15,8 +15,24 @@ let rec token buf =
     | "fun" -> FUN
     | "for" -> FOR
     | "else" -> ELSE
-    | "int" -> TINT 
     | "mut" -> MUT
+    | "module" -> MODULE
+    | "as" -> AS
+    | "false" -> FALSE
+    | "true" -> TRUE
+    | "continue" -> CONTINUE
+    | "break" -> BREAK
+    | "enum" -> ENUM
+    | "impl" -> IMPL
+    | "let" -> LET
+    | "loop" -> LOOP
+    | "match" -> MATCH
+    | "return" -> RETURN
+    | "struct" -> STRUCT
+    | "int" -> TINT 
+    | "float" -> TFLOAT
+    | "string" -> TSTRING
+    | "bool" -> TBOOL
     | "{" -> LBRACE
     | "}" -> RBRACE
     | "[" -> LBRACK
@@ -24,12 +40,14 @@ let rec token buf =
     | "(" -> LPAREN
     | ")" -> RPAREN
     | ";" ->  SEMICOLON
+    | ":" -> COLON
+    | "," -> COMMA
     | "+" -> PLUS
     | "-" ->  MINUS
     | "*" ->  TIMES
     | "/" ->  DIV
+    | letter, Star (letter | integer) -> ID(Sedlexing.Latin1.lexeme buf)
     | eof -> EOF
-    | letter, Star (letter | integer) -> token buf
     | _ -> print_string (Sedlexing.Utf8.lexeme buf); failwith "Failed to parse"
 
 let lexer buf = 

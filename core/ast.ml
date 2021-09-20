@@ -49,12 +49,11 @@ type rtypedef =
   [@@deriving show, eq, sexp, yojson { strict = true }]
 
 type paramtype = 
-  | StringType of (muttype * string)
-  | BoolType of (muttype * string)
-  | F64Type of (muttype * string)
-  | IntType of (muttype * string)
-  | RecordType of (muttype * string)
-  | GenericType of (muttype * string) * (string list)
+  | StringParamType of (muttype * string)
+  | BoolParamType of (muttype * string)
+  | F64ParamType of (muttype * string)
+  | IntParamType of (muttype * string)
+  | RecordParamType of (muttype * string * string)
   [@@deriving show, eq, sexp, yojson { strict = true }]
 
 type returntype = 
@@ -63,14 +62,12 @@ type returntype =
   | F64Type
   | IntType
   | RecordType of string
-  | GenericType
   [@@deriving show, eq, sexp, yojson { strict = true }]
 
-
-type param = Param of (paramtype * string) [@@deriving show, eq, sexp, yojson { strict = true }]
+type params = Params of paramtype list
 
 type definition  = 
-  | Function of string * (param list) * (returntype option)
+  | Function of string * (paramtype list) * (returntype option)
   | RecordDef of rtypedef
   [@@deriving show, eq, sexp, yojson { strict = true }]
 

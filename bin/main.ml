@@ -1,5 +1,6 @@
 open! Frontend
 open! MenhirLib
+
 let usage_msg = "mcc [-verbose] <file1> [<file2>] ... -o <output>"
 let verbose = ref false
 let input_files = ref []

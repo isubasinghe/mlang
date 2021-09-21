@@ -39,6 +39,9 @@
 
 %token COMMA
 
+%token RARROW
+%token LARROW
+
 %token LQ
 %token LEQ
 
@@ -94,12 +97,12 @@ pparams:
 
 
 pdefinition:
-  FUN ID pparams preturntype          { Ast.Function($2, $3, Some $4) }
-  | FUN ID pparams                    { Ast.Function($2, $3, None) }
+  FUN ID pparams LBRACE RBRACE RARROW preturntype          { Ast.Function($2, $3, Some $7) }
+  | FUN ID pparams LBRACE RBRACE                           { Ast.Function($2, $3, None) }
 ;
 
 pmoduledefn:
-  MODULE ID SEMICOLON list(pdefinition)      { Ast.Module($2, []) }
+  MODULE ID SEMICOLON list(pdefinition)  EOF { Ast.Module($2, $4) }
 ; 
 
 main:

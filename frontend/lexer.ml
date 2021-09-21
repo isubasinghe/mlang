@@ -42,6 +42,8 @@ let rec token buf =
     | ";" ->  SEMICOLON
     | ":" -> COLON
     | "," -> COMMA
+    | "->" -> RARROW
+    | "<-" -> LARROW
     | "+" -> PLUS
     | "-" ->  MINUS
     | "*" ->  TIMES

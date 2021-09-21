@@ -1,4 +1,5 @@
 open! Frontend
+open! Core.Ast
 open! MenhirLib
 
 let usage_msg = "mcc [-verbose] <file1> [<file2>] ... -o <output>"
@@ -21,8 +22,10 @@ let parse_file filename =
   let lexbuf = Sedlexing.Utf8.from_channel oc in
   let lexer = Sedlexing.with_tokenizer Lexer.token lexbuf in
   let parser = MenhirLib.Convert.Simplified.traditional2revised Parser.pmoduledefn in
-  let _result = parser lexer in
-  ()
+  let result = parser lexer in
+  print_string (show_moduledefn result);
+  print_string "\n"
+
 
 let () =
   Arg.parse speclist anon_fun usage_msg;

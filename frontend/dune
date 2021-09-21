@@ -8,7 +8,7 @@
 (menhir
  (modules parser))
 
-(rule
- (targets parser_messages.ml)
- (deps parser.messages parser.mly)
- (action  (with-stdout-to %{targets} (run menhir --compile-errors %{deps}))))
+; (rule
+;  (targets parser_messages.ml)
+;  (deps parser.messages parser.mly)
+;  (action  (with-stdout-to %{targets} (run menhir --compile-errors %{deps}))))

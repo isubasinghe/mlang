@@ -57,33 +57,50 @@
 %nonassoc UMINUS        /* highest precedence */
 %nonassoc NEG
 
-%start main             /* the entry point */
+%start pmoduledefn             /* the entry point */
 %type <int> main
-%type <Core.Ast.returntype> rettype
-%type <Core.ASt.muttype> mtype
+%type <Ast.returntype> preturntype
+%type <Ast.muttype> pmuttype
+%type <Ast.paramtype> pparamtype
+%type <Ast.params> pparams
+%type <Ast.definition> pdefinition
+%type <Ast.moduledefn> pmoduledefn
 %%
 
-rettype:
-  TINT                        { Core.Ast.IntType }
-  | TFLOAT                    { Core.Ast.F64Type }
-  | TSTRING                   { Core.Ast.StringType }
-  | TBOOL                     { Core.Ast.BoolType }
-  | ID                        { Core.Ast.RecordType ($1) }
+preturntype:
+  TINT                        { Ast.IntType }
+  | TFLOAT                    { Ast.F64Type }
+  | TSTRING                   { Ast.StringType }
+  | TBOOL                     { Ast.BoolType }
+  | ID                        { Ast.RecordType ($1) }
 ;
 
-mtype:
-  MUT                        { Core.Ast.MutType } 
-  |                          { Core.Ast.ConstType }
+pmuttype:
+  MUT                        { Ast.MutType } 
+  |                          { Ast.ConstType }
 ;
 
-ptype:
-  ID COLON mtype TINT               { Core.Ast.IntParamType($3, $1) }
-  | ID COLON mtype TFLOAT           { Core.Ast.F64ParamType($3,$1) }
-  | ID COLON mtype TSTRING          { Core.Ast.StringParamType($3, $1) }
-  | ID COLON mtype TBOOL            { Core.Ast.BoolParamType($3,$1) }
-  | ID COLON mtype ID               { Core.Ast.RecordParamType($3,$1,$4) }
+pparamtype:
+  ID COLON   pmuttype TINT             { Ast.IntParamType($3, $1) }
+  | ID COLON pmuttype TFLOAT           { Ast.F64ParamType($3,$1) }
+  | ID COLON pmuttype TSTRING          { Ast.StringParamType($3, $1) }
+  | ID COLON pmuttype TBOOL            { Ast.BoolParamType($3,$1) }
+  | ID COLON pmuttype ID               { Ast.RecordParamType($3,$1,$4) }
 ;
 
+pparams:
+  | LPAREN separated_list(COMMA, pparamtype) RPAREN { Ast.Params $2 } 
+;
+
+
+pdefinition:
+  FUN ID pparams preturntype          { Ast.Function($2, $3, Some $4) }
+  | FUN ID pparams                    { Ast.Function($2, $3, None) }
+;
+
+pmoduledefn:
+  MODULE ID SEMICOLON list(pdefinition)      { Ast.Module($2, []) }
+; 
 
 main:
     expr EOF                { $1 }

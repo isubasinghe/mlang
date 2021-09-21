@@ -67,7 +67,7 @@ type returntype =
 type params = Params of paramtype list
 
 type definition  = 
-  | Function of string * (paramtype list) * (returntype option)
+  | Function of string * (params) * (returntype option)
   | RecordDef of rtypedef
   [@@deriving show, eq, sexp, yojson { strict = true }]
 

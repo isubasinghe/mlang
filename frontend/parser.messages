@@ -1,0 +1,185 @@
+pmoduledefn: MODULE ID SEMICOLON FUN ID LPAREN ID COLON MUT GQ
+##
+## Ends in an error in state: 10.
+##
+## pparamtype -> ID COLON pmuttype . TINT [ RPAREN COMMA ]
+## pparamtype -> ID COLON pmuttype . TFLOAT [ RPAREN COMMA ]
+## pparamtype -> ID COLON pmuttype . TSTRING [ RPAREN COMMA ]
+## pparamtype -> ID COLON pmuttype . TBOOL [ RPAREN COMMA ]
+## pparamtype -> ID COLON pmuttype . ID [ RPAREN COMMA ]
+##
+## The known suffix of the stack is as follows:
+## ID COLON pmuttype
+##
+
+A '>' symbol is not valid in a function signature, unless used in the turbofish operator '::<T>'.
+
+pmoduledefn: MODULE ID SEMICOLON FUN ID LPAREN ID COLON TSTRING COMMA UMINUS
+##
+## Ends in an error in state: 18.
+##
+## separated_nonempty_list(COMMA,pparamtype) -> pparamtype COMMA . separated_nonempty_list(COMMA,pparamtype) [ RPAREN ]
+##
+## The known suffix of the stack is as follows:
+## pparamtype COMMA
+##
+
+A '-' symbol is not valid in a function signature, perhaps you meant '_'?
+
+pmoduledefn: MODULE ID SEMICOLON FUN ID LPAREN ID COLON TSTRING UMINUS
+##
+## Ends in an error in state: 17.
+##
+## separated_nonempty_list(COMMA,pparamtype) -> pparamtype . [ RPAREN ]
+## separated_nonempty_list(COMMA,pparamtype) -> pparamtype . COMMA separated_nonempty_list(COMMA,pparamtype) [ RPAREN ]
+##
+## The known suffix of the stack is as follows:
+## pparamtype
+##
+
+A '-' symbol is not valid in a function signature. 
+
+pmoduledefn: MODULE ID SEMICOLON FUN ID LPAREN ID COLON UMINUS
+##
+## Ends in an error in state: 8.
+##
+## pparamtype -> ID COLON . pmuttype TINT [ RPAREN COMMA ]
+## pparamtype -> ID COLON . pmuttype TFLOAT [ RPAREN COMMA ]
+## pparamtype -> ID COLON . pmuttype TSTRING [ RPAREN COMMA ]
+## pparamtype -> ID COLON . pmuttype TBOOL [ RPAREN COMMA ]
+## pparamtype -> ID COLON . pmuttype ID [ RPAREN COMMA ]
+##
+## The known suffix of the stack is as follows:
+## ID COLON
+##
+
+
+A '-' symbol is not valid in a function signature, perhaps you meant '_'?
+
+pmoduledefn: MODULE ID SEMICOLON FUN ID LPAREN ID UMINUS
+##
+## Ends in an error in state: 7.
+##
+## pparamtype -> ID . COLON pmuttype TINT [ RPAREN COMMA ]
+## pparamtype -> ID . COLON pmuttype TFLOAT [ RPAREN COMMA ]
+## pparamtype -> ID . COLON pmuttype TSTRING [ RPAREN COMMA ]
+## pparamtype -> ID . COLON pmuttype TBOOL [ RPAREN COMMA ]
+## pparamtype -> ID . COLON pmuttype ID [ RPAREN COMMA ]
+##
+## The known suffix of the stack is as follows:
+## ID
+##
+
+A '-' symbol is not valid in a function signature, perhaps you meant '_'?
+
+pmoduledefn: MODULE ID SEMICOLON FUN ID LPAREN RPAREN TSTRING UMINUS
+##
+## Ends in an error in state: 29.
+##
+## list(pdefinition) -> pdefinition . list(pdefinition) [ # ]
+##
+## The known suffix of the stack is as follows:
+## pdefinition
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+pmoduledefn: MODULE ID SEMICOLON FUN ID LPAREN RPAREN UMINUS
+##
+## Ends in an error in state: 22.
+##
+## pdefinition -> FUN ID pparams . preturntype [ FUN # ]
+## pdefinition -> FUN ID pparams . [ FUN # ]
+##
+## The known suffix of the stack is as follows:
+## FUN ID pparams
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+pmoduledefn: MODULE ID SEMICOLON FUN ID LPAREN UMINUS
+##
+## Ends in an error in state: 6.
+##
+## pparams -> LPAREN . loption(separated_nonempty_list(COMMA,pparamtype)) RPAREN [ TSTRING TINT TFLOAT TBOOL ID FUN # ]
+##
+## The known suffix of the stack is as follows:
+## LPAREN
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+pmoduledefn: MODULE ID SEMICOLON FUN ID UMINUS
+##
+## Ends in an error in state: 5.
+##
+## pdefinition -> FUN ID . pparams preturntype [ FUN # ]
+## pdefinition -> FUN ID . pparams [ FUN # ]
+##
+## The known suffix of the stack is as follows:
+## FUN ID
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+pmoduledefn: MODULE ID SEMICOLON FUN UMINUS
+##
+## Ends in an error in state: 4.
+##
+## pdefinition -> FUN . ID pparams preturntype [ FUN # ]
+## pdefinition -> FUN . ID pparams [ FUN # ]
+##
+## The known suffix of the stack is as follows:
+## FUN
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+pmoduledefn: MODULE ID SEMICOLON UMINUS
+##
+## Ends in an error in state: 3.
+##
+## pmoduledefn -> MODULE ID SEMICOLON . list(pdefinition) [ # ]
+##
+## The known suffix of the stack is as follows:
+## MODULE ID SEMICOLON
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+pmoduledefn: MODULE ID UMINUS
+##
+## Ends in an error in state: 2.
+##
+## pmoduledefn -> MODULE ID . SEMICOLON list(pdefinition) [ # ]
+##
+## The known suffix of the stack is as follows:
+## MODULE ID
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+pmoduledefn: MODULE UMINUS
+##
+## Ends in an error in state: 1.
+##
+## pmoduledefn -> MODULE . ID SEMICOLON list(pdefinition) [ # ]
+##
+## The known suffix of the stack is as follows:
+## MODULE
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+pmoduledefn: UMINUS
+##
+## Ends in an error in state: 0.
+##
+## pmoduledefn' -> . pmoduledefn [ # ]
+##
+## The known suffix of the stack is as follows:
+##
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+

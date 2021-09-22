@@ -70,6 +70,22 @@
 %type <Ast.moduledefn> pmoduledefn
 %%
 
+pconstant:
+  FALSE                       { Ast.BoolConst false }
+  | TRUE                      { Ast.BoolConst true  }
+  | INT                       { Ast.IntConst $1     }
+  | FLOAT                     { Ast.F64Const $1     }
+;
+
+
+pexpression:
+  | pconstant                 { Ast.Constant $1 }
+
+pstatement:
+  LET ID COLON preturntype EQ  pexpression    { Ast.ConstBinding ($2, $4, $6) }
+;
+
+
 preturntype:
   TINT                        { Ast.IntType }
   | TFLOAT                    { Ast.F64Type }
@@ -97,8 +113,8 @@ pparams:
 
 
 pdefinition:
-  FUN ID pparams LBRACE RBRACE RARROW preturntype          { Ast.Function($2, $3, Some $7) }
-  | FUN ID pparams LBRACE RBRACE                           { Ast.Function($2, $3, None) }
+  FUN ID pparams RARROW preturntype LBRACE list(pstatement) RBRACE          { Ast.Function($2, $3, $7, Some $5) }
+  | FUN ID pparams LBRACE list(pstatement) RBRACE                           { Ast.Function($2, $3, $5, None)    }
 ;
 
 pmoduledefn:

@@ -48,6 +48,7 @@ let rec token buf =
     | "-" ->  MINUS
     | "*" ->  TIMES
     | "/" ->  DIV
+    | "=" -> EQ
     | letter, Star (letter | integer) -> ID(Sedlexing.Latin1.lexeme buf)
     | eof -> EOF
     | _ -> print_string (Sedlexing.Utf8.lexeme buf); failwith "Failed to parse"

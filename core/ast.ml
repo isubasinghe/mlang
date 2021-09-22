@@ -32,12 +32,12 @@ type binop =
   | Gtq 
   [@@deriving show, eq, yojson { strict = true }]
 
-type expr = 
-  | UOp of uop * expr
-  | BinOp of binop * expr * expr
+type expression = 
+  | UOp of uop * expression
+  | BinOp of binop * expression * expression
   | Constant of constant
   | Var of string
-  | FuncCall of string * (expr list)
+  | FuncCall of string * (expression list)
   [@@deriving show, eq,  yojson { strict = true }]
 
 type rtypedef = 
@@ -64,10 +64,14 @@ type returntype =
   | RecordType of string
   [@@deriving show, eq, yojson { strict = true }]
 
+type statement = 
+  | ConstBinding of string * returntype * expression
+  [@@deriving show, eq, yojson { strict = true }]
+
 type params = Params of paramtype list [@@deriving show, eq, yojson { strict = true }]
 
 type definition  = 
-  | Function of string * (params) * (returntype option)
+  | Function of string * params * (statement list) * (returntype option)
   | RecordDef of rtypedef
   [@@deriving show, eq, yojson { strict = true }]
 

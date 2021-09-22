@@ -81,8 +81,8 @@ pexpression:
   | pconstant                 { Ast.Constant $1 }
 
 pstatement:
-  LET ID COLON preturntype EQ  pexpression SEMICOLON      { Ast.VarBinding ($2, $4, $6, MutType)  }
-  | LET MUT ID COLON preturntype EQ pexpression SEMICOLON { Ast.VarBinding ($3, $5, $7, ConstType)}
+  LET ID COLON preturntype EQ  pexpression SEMICOLON      { Ast.VarBinding ($2, $4, $6, ConstType)  }
+  | LET MUT ID COLON preturntype EQ pexpression SEMICOLON { Ast.VarBinding ($3, $5, $7, MutType)    }
 ;
 
 

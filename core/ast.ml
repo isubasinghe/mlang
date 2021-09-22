@@ -65,7 +65,7 @@ type returntype =
   [@@deriving show, eq, yojson { strict = true }]
 
 type statement = 
-  | ConstBinding of string * returntype * expression
+  | VarBinding of string * returntype * expression * muttype
   [@@deriving show, eq, yojson { strict = true }]
 
 type params = Params of paramtype list [@@deriving show, eq, yojson { strict = true }]

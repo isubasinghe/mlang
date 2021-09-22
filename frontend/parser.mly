@@ -61,7 +61,6 @@
 %nonassoc NEG
 
 %start pmoduledefn             /* the entry point */
-%type <int> main
 %type <Ast.returntype> preturntype
 %type <Ast.muttype> pmuttype
 %type <Ast.paramtype> pparamtype
@@ -82,7 +81,8 @@ pexpression:
   | pconstant                 { Ast.Constant $1 }
 
 pstatement:
-  LET ID COLON preturntype EQ  pexpression    { Ast.ConstBinding ($2, $4, $6) }
+  LET ID COLON preturntype EQ  pexpression SEMICOLON      { Ast.VarBinding ($2, $4, $6, MutType)  }
+  | LET MUT ID COLON preturntype EQ pexpression SEMICOLON { Ast.VarBinding ($3, $5, $7, ConstType)}
 ;
 
 
@@ -120,15 +120,3 @@ pdefinition:
 pmoduledefn:
   MODULE ID SEMICOLON list(pdefinition)  EOF { Ast.Module($2, $4) }
 ; 
-
-main:
-    expr EOF                { $1 }
-;
-expr:
-    INT                     { $1 }
-  | LPAREN expr RPAREN      { $2 }
-  | expr PLUS expr          { $1 + $3 }
-  | expr MINUS expr         { $1 - $3 }
-  | expr TIMES expr         { $1 * $3 }
-  | expr DIV expr           { $1 / $3 }
-  | MINUS expr %prec UMINUS { - $2 }

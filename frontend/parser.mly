@@ -5,6 +5,7 @@
 %token <float> FLOAT
 %token <bool> BOOL
 %token <string> ID
+%token <string> STRINGLIT
 %token IF
 %token FUN
 %token FOR
@@ -34,6 +35,8 @@
 %token LBRACK RBRACK
 %token LPAREN RPAREN
 
+%token ASSIGN
+
 %token SEMICOLON
 %token COLON
 
@@ -53,12 +56,12 @@
 %token PLUS MINUS TIMES DIV
 %token EOF
 
-%token UMINUS NEG
+%token NOT
 
 %left PLUS MINUS        /* lowest precedence */
 %left TIMES DIV         /* medium precedence */
-%nonassoc UMINUS        /* highest precedence */
-%nonassoc NEG
+%nonassoc NOT
+%nonassoc EQ LQ GQ GEQ
 
 %start pmoduledefn             /* the entry point */
 %type <Ast.returntype> preturntype
@@ -74,15 +77,24 @@ pconstant:
   | TRUE                      { Ast.BoolConst true  }
   | INT                       { Ast.IntConst $1     }
   | FLOAT                     { Ast.F64Const $1     }
+  | STRINGLIT                 { Ast.StringConst $1  }
 ;
 
-
 pexpression:
-  | pconstant                 { Ast.Constant $1 }
+  | pconstant                                             { Ast.Constant $1 }
+  | ID LPAREN separated_list(COMMA, pexpression) RPAREN   { Ast.FuncCall ($1, $3) }
+  | MINUS pexpression                                     { Ast.UOp (Ast.Neg, $2)}
+  | NOT pexpression                                       { Ast.UOp (Ast.Not, $2)}
+  | pexpression PLUS pexpression                          { Ast.BinOp (Ast.Add, $1, $3)}
+  | pexpression MINUS pexpression                         { Ast.BinOp (Ast.Sub, $1, $3)}
+  | pexpression TIMES pexpression                         { Ast.BinOp (Ast.Mult, $1, $3)} 
+  | pexpression DIV pexpression                           { Ast.BinOp (Ast.Div, $1, $3)}
+  | pexpression EQ pexpression                            { Ast.BinOp (Ast.Eq, $1, $3)}
+;
 
 pstatement:
-  LET ID COLON preturntype EQ  pexpression SEMICOLON      { Ast.VarBinding ($2, $4, $6, ConstType)  }
-  | LET MUT ID COLON preturntype EQ pexpression SEMICOLON { Ast.VarBinding ($3, $5, $7, MutType)    }
+  LET ID COLON preturntype ASSIGN  pexpression SEMICOLON      { Ast.VarBinding ($2, $4, $6, ConstType)  }
+  | LET MUT ID COLON preturntype ASSIGN pexpression SEMICOLON { Ast.VarBinding ($3, $5, $7, MutType)    }
 ;
 
 

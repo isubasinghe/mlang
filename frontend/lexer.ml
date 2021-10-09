@@ -53,6 +53,10 @@ let rec token buf =
     | "*" ->  TIMES
     | "/" ->  DIV
     | "==" -> EQ
+    | ">=" -> GEQ
+    | ">" -> GQ
+    | "<=" -> LEQ
+    | "<" -> LQ
     | "=" -> ASSIGN
     | "!" -> NOT
     | stringlit -> STRINGLIT (Sedlexing.Utf8.lexeme buf)

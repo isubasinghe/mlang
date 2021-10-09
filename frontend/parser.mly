@@ -51,7 +51,7 @@
 %token GQ 
 %token GEQ
 
-%token EQ
+%token EQ NEQ
 
 %token PLUS MINUS TIMES DIV
 %token EOF
@@ -61,7 +61,7 @@
 %left PLUS MINUS        /* lowest precedence */
 %left TIMES DIV         /* medium precedence */
 %nonassoc NOT
-%nonassoc EQ LQ GQ GEQ
+%nonassoc EQ NEQ LQ LEQ GQ GEQ
 
 %start pmoduledefn             /* the entry point */
 %type <Ast.returntype> preturntype
@@ -81,20 +81,27 @@ pconstant:
 ;
 
 pexpression:
-  | pconstant                                             { Ast.Constant $1 }
-  | ID LPAREN separated_list(COMMA, pexpression) RPAREN   { Ast.FuncCall ($1, $3) }
-  | MINUS pexpression                                     { Ast.UOp (Ast.Neg, $2)}
-  | NOT pexpression                                       { Ast.UOp (Ast.Not, $2)}
-  | pexpression PLUS pexpression                          { Ast.BinOp (Ast.Add, $1, $3)}
-  | pexpression MINUS pexpression                         { Ast.BinOp (Ast.Sub, $1, $3)}
-  | pexpression TIMES pexpression                         { Ast.BinOp (Ast.Mult, $1, $3)} 
-  | pexpression DIV pexpression                           { Ast.BinOp (Ast.Div, $1, $3)}
-  | pexpression EQ pexpression                            { Ast.BinOp (Ast.Eq, $1, $3)}
+  | pconstant                                                      { Ast.Constant $1 }
+  | ID LPAREN separated_list(COMMA, pexpression) RPAREN SEMICOLON  { Ast.FuncCall ($1, $3) }
+  | ID SEMICOLON                                                   { Ast.Var $1 }
+  | MINUS pexpression                                              { Ast.UOp (Ast.Neg, $2) }
+  | NOT pexpression                                                { Ast.UOp (Ast.Not, $2) }
+  | pexpression PLUS pexpression                                   { Ast.BinOp (Ast.Add, $1, $3) }
+  | pexpression MINUS pexpression                                  { Ast.BinOp (Ast.Sub, $1, $3) }
+  | pexpression TIMES pexpression                                  { Ast.BinOp (Ast.Mult, $1, $3) } 
+  | pexpression DIV pexpression                                    { Ast.BinOp (Ast.Div, $1, $3) }
+  | pexpression EQ pexpression                                     { Ast.BinOp (Ast.Eq, $1, $3) }
+  | pexpression LQ pexpression                                     { Ast.BinOp (Ast.Lt, $1, $3) }
+  | pexpression LEQ pexpression                                    { Ast.BinOp (Ast.Ltq, $1, $3) }
+  | pexpression GQ pexpression                                     { Ast.BinOp (Ast.Gt, $1, $3) }
+  | pexpression GEQ pexpression                                    { Ast.BinOp (Ast.Gtq, $1, $3) }
+  | pexpression NEQ pexpression                                    { Ast.BinOp (Ast.Neq, $1, $3) }
 ;
 
 pstatement:
-  LET ID COLON preturntype ASSIGN  pexpression SEMICOLON      { Ast.VarBinding ($2, $4, $6, ConstType)  }
-  | LET MUT ID COLON preturntype ASSIGN pexpression SEMICOLON { Ast.VarBinding ($3, $5, $7, MutType)    }
+  LET ID COLON preturntype ASSIGN  pexpression SEMICOLON          { Ast.VarBinding ($2, $4, $6, ConstType)  }
+  | LET MUT ID COLON preturntype ASSIGN pexpression SEMICOLON     { Ast.VarBinding ($3, $5, $7, MutType)    }
+  | ID LPAREN separated_list(COMMA, pexpression) RPAREN SEMICOLON { Ast.FuncCall' ($1, $3) }
 ;
 
 

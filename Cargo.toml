@@ -1,0 +1,5 @@
+[package]
+name = "mmc"
+authors = ["Isitha Subasinghe"]
+version = "0.1.0"
+

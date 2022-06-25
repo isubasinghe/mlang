@@ -1,5 +1,0 @@
-(executables
- (names main)
- (libraries frontend menhirLib)
- (preprocess
-   (pps sedlex.ppx ppx_deriving.show ppx_deriving.ord)))

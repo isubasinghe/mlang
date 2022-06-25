@@ -1,6 +1,7 @@
 extern crate cfgrammar;
 extern crate lrlex;
 extern crate lrpar;
+extern crate inkwell;
 
 mod asts;
 mod lowerings;
